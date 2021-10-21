@@ -1,5 +1,4 @@
 import axios from "axios";
-import { format } from 'date-fns'
 import { serializeEvent } from '../../functions/serializers'
 
 const apiUrl = "http://localhost:3000";
