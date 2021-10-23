@@ -6,7 +6,7 @@
       </v-btn>
     </v-card-actions>
     <v-card-text>
-      <DialogSection icon="mdi-square" :color="event.color">
+      <DialogSection icon="mdi-square" :color="color">
         <v-text-field v-model="name" label="タイトル"></v-text-field>
       </DialogSection>
       <DialogSection icon="mdi-clock-outline">
@@ -14,6 +14,12 @@
         <TimeForm v-model="startTime" />
         <DateForm v-model="endDate" />
         <TimeForm v-model="endTime" />
+      </DialogSection>
+      <DialogSection>
+        <TextForm v-model="description" />
+      </DialogSection>
+      <DialogSection icon="mdi-palette">
+        <ColorForm v-model="color" />
       </DialogSection>
     </v-card-text>
     <v-card-actions class="d-flex justify-end">
@@ -27,6 +33,8 @@ import { mapGetters, mapActions } from 'vuex';
 import DialogSection from './DialogSection';
 import DateForm from './DateForm';
 import TimeForm from './TimeForm';
+import TextForm from './TextForm';
+import ColorForm from './ColorForm';
 
 export default {
   name:'EventFormDialog',
@@ -34,6 +42,8 @@ export default {
     DialogSection,
     DateForm,
     TimeForm,
+    TextForm,
+    ColorForm,
   },
   data:() => ({
     name:'',
@@ -41,6 +51,8 @@ export default {
     startTime: null,
     endDate: null,
     endTime: null,
+    description: '',
+    color:'',
   }),
   computed: {
     ...mapGetters('events', ['event']),
@@ -49,7 +61,8 @@ export default {
     this.startDate = this.event.startDate;
     this.startTime = this.event.startTime;
     this.endDate = this.event.endDate;
-    this.endTime = this.event.entTime;
+    this.endTime = this.event.endTime;
+    this.color = this.event.color;
   },
   methods: {
     ...mapActions('events', ['setEvent', 'setEditMode', 'createEvent']),
@@ -62,6 +75,8 @@ export default {
         name: this.name,
         start: `${this.startDate} ${this.startTime ||''}`,
         end: `${this.endDate} ${this.endTime || ''}`,
+        description: this.description,
+        color: this.color,
       };
       this.createEvent(params);
       this.closeDialog();
