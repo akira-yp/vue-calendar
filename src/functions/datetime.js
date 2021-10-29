@@ -1,4 +1,5 @@
 import { format, addHours } from 'date-fns';
+import { ja } from 'date-fns/locale'
 
 export const getTimeIntervalList = () => {
   const hours = [...Array(24)].map((_,i) => ('0' + i).slice(-2));
@@ -14,3 +15,19 @@ export const getDefaultStartAndEnd = date => {
   const end = format(addHours(datetime, 2), 'yyyy/MM/dd HH:00:00');
   return [start, end];
 }
+
+export const isGreaterEndThanStart = (startDate, startTime, endDate,endTime, allDay) => {
+  if (allDay) {
+    const start = new Date(startDate).getTime();
+    const end = new Date(endDate).getTime();
+    return end >= start;
+  } else {
+    const start = new Date(`${startDate} ${startTime}`).getTime();
+    const end = new Date(`${endDate} ${endTime}`).getTime();
+    return  end > start;
+  }
+};
+
+export const formatDateToJa = date => {
+  return format(new Date(date), 'M月d日(E)', { locale: ja });
+};
